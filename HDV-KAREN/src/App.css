@@ -1,0 +1,106 @@
+/* Fondo de la página */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #21002b, #2e0744, #2c5364);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Contenedor del formulario */
+.formulario {
+  width: 100%;
+  max-width: 550px;
+  background: #ffffff;
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+
+  margin: 40px auto;
+}
+
+/* Título */
+.formulario h2 {
+  text-align: center;
+  color: hsl(287, 84%, 27%);
+  margin-bottom: 30px;
+  font-size: 30px;
+}
+
+/* Cada grupo */
+.grupo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+/* Etiquetas */
+.grupo label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* Inputs y Select */
+.grupo input,
+.grupo select {
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s ease;
+  background: #f8f9fa;
+  color:#000000;
+}
+
+/* Efecto al seleccionar */
+.grupo input:focus,
+.grupo select:focus {
+  border-color: #440957;
+  background: #fff;
+  box-shadow: 0 0 10px rgba(13, 110, 253, 0.25);
+}
+
+/* Input tipo archivo */
+.grupo input[type="file"] {
+  padding: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* Botón */
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #261cb6, #521874);
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+/* Hover botón */
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13, 110, 253, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .formulario {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .formulario h2 {
+    font-size: 24px;
+  }
+}
