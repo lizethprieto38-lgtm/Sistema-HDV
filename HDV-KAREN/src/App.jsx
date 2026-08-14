@@ -1,39 +1,98 @@
-import {useState } from "react";
+import { useState } from 'react';
 
-import Header from "./components/Header";
-import FormularioDatos from "./components/FormularioDatos";
-import FormularioAcademico from "./components/FormularioAcademico";
-import FormularioExperiencia from "./components/FormularioExperiencia";
-import Footer  from "./components/Footer";
-
-import "./App.css";
-
+import Header from './components/Header';
+import FormularioDatos from './components/FormularioDatos';
+import FormacionAcademica from './components/FormularioAcademico';
+import ExperienciaLaboral from './components/FormularioExperiencia';
+import VistaPrevia from './components/VistaPrevia';
+import Footer from './components/Footer';
+import './App.css';
+import FormularioAcademico from './components/FormularioAcademico';
+import FormularioExperiencia from './components/FormularioExperiencia';
 
 function App() {
   const [paso, setPaso] = useState(1);
 
+  //datos compartidos
+  const [persona,setPersona] = useState({
+    
+    
+    //datos personales de la persona
+    foto: null,
+    nombre:"",
+    edad:"",
+    ciudad:"",
+    correo:"",
+    programa:"",
+    ficha:"",
+    jornada:"Mañana",
+
+    //informmación de estudios
+    nivel:"",
+    institucion:"",
+    titulo:"",
+    anio:"",
+    cursos:"",
+
+    //experiencia
+    empresa:"",
+    cargo:"",
+    tiempo:"",
+    funciones:"",
+    habilidades:"",
+
+
+  });
+
+  //estado para los cursos
+  const [datos, setDatos] = useState({
+    cursos: [],
+    Experiencia: [],
+  });
+
   return (
-    <div className="contenedor">
+    <div className='contenedor'>
       <Header />
 
       {paso === 1 && (
-        <FormularioDatos
-          siguiente={() => setPaso(2)}
+        <FormularioDatos 
+        persona = {persona}
+        setPersona = {setPersona}
+        siguiente={() => setPaso(2)} 
         />
       )}
-       {paso === 2 && (
+
+      {paso === 2 && (
         <FormularioAcademico
+          persona = {persona}
+          setPersona = {setPersona}
+          datos={datos}
+          setDatos={setDatos}
           anterior={() => setPaso(1)}
           siguiente={() => setPaso(3)}
         />
       )}
-        {paso === 3 && (
+
+      {paso === 3 && (
         <FormularioExperiencia
+          persona = {persona}
+          setPersona = {setPersona}
+          datos={datos}
+          setDatos={setDatos}
           anterior={() => setPaso(2)}
           siguiente={() => setPaso(4)}
         />
       )}
-        
+
+      {paso === 4 && (
+        <VistaPrevia
+          persona = {persona}
+          datos={datos}
+          anterior={() => setPaso(3)}
+          enviar={() => {
+          }}
+        />
+      )}
 
       <Footer />
     </div>

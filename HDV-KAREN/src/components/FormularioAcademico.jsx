@@ -1,12 +1,7 @@
 import { useState } from "react";
 
 
-function FormularioAcademico({anterior , continuar}) {
-  const [nivel, setNivel] = useState("");
-  const [institucion, setInstitucion] = useState("");
-  const [titulo, setTitulo] = useState("");
-  const [anio, setAnio] = useState("");
-  const [cursos, setCursos] = useState("");
+function FormularioAcademico({persona, setPersona, anterior , siguiente}) {
 
 const enviar = (e) => {
   e.preventDefault();
@@ -17,9 +12,6 @@ const enviar = (e) => {
     siguiente();
   }
 
-  if(anterior){
-    anterior();
-  }
 };
 
   return (
@@ -31,8 +23,8 @@ const enviar = (e) => {
           <div className="grupo">
             <label>Nivel de Formación</label>
             <select
-              value={nivel}
-              onChange={(e) => setNivel(e.target.value)}
+              value={persona.nivel}
+              onChange={(e) => setPersona({...persona,nivel: e.target.value})}
             >
               <option value="">Seleccione...</option>
               <option>Técnico</option>
@@ -49,8 +41,8 @@ const enviar = (e) => {
             <input
               type="text"
               placeholder="Ingrese la institución"
-              value={institucion}
-              onChange={(e) => setInstitucion(e.target.value)}
+              value={persona.institucion}
+              onChange={(e) => setPersona({...persona,institucion: e.target.value})}
             />
           </div>
         </div>
@@ -61,8 +53,8 @@ const enviar = (e) => {
             <input
               type="text"
               placeholder="Ingrese el título"
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
+              value={persona.titulo}
+              onChange={(e) => setPersona({...persona,titulo: e.target.value})}
             />
           </div>
 
@@ -71,8 +63,8 @@ const enviar = (e) => {
             <input
               type="number"
               placeholder="Ejemplo: 2025"
-              value={anio}
-              onChange={(e) => setAnio(e.target.value)}
+              value={persona.anio}
+              onChange={(e) => setPersona({...persona,anio: e.target.value})}
             />
           </div>
         </div>
@@ -82,8 +74,8 @@ const enviar = (e) => {
           <textarea
             rows="4"
             placeholder="Escribe los cursos realizados"
-            value={cursos}
-            onChange={(e) => setCursos(e.target.value)}
+            value={persona.cursos}
+            onChange={(e) => setPersona({...persona,cursos: e.target.value})}
           ></textarea>
         </div>
 
