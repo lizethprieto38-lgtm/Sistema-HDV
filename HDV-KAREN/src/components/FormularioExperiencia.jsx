@@ -1,19 +1,42 @@
 import { useState } from "react";
 
-function FormularioExperiencia({
-    persona,
-    setPersona,
-    anterior,
-    siguiente
-}) {
+function FormularioExperiencia({ persona, setPersona, anterior, siguiente }) {
+
+
+    // Estado temporal para escribir un nuevo curso
+  const [nuevaFuncion, setNuevaFuncion] = useState("");
+
+  // Agregar curso
+  const agregarFuncion = () => {
+
+    if (nuevaFuncion.trim() === "") {
+      alert("Escribe el nombre de la función.");
+      return;
+    }
+
+    setPersona({ ...persona, funcion: [...persona.funcion, nuevaFuncion.trim()] });
+
+    setNuevaFuncion("");
+  };
+
+  // Eliminar curso
+  const eliminarFuncion = (indice) => {
+
+    const nuevasFunciones = persona.funcion.filter(
+      (_, i) => i !== indice
+    );
+
+    setPersona({...persona,funcion: nuevasFunciones});
+  };
+
 
     // Estado temporal para la experiencia que se está escribiendo
     const [experienciaActual, setExperienciaActual] = useState({
         empresa: "",
         cargo: "",
         tiempo: "",
-        funciones: "",
-        habilidades: ""
+        funcion: [],
+        habilidades: []
     });
 
     // Cambiar los datos de la experiencia actual
@@ -88,7 +111,7 @@ function FormularioExperiencia({
                 (_, i) => i !== indice
             );
 
-        setPersona({...persona, experiencias: nuevasExperiencias});
+        setPersona({ ...persona, experiencias: nuevasExperiencias });
     };
 
     // Continuar
@@ -142,6 +165,7 @@ function FormularioExperiencia({
         <div className="formulario">
             <h2>Experiencia Laboral</h2>
             <form onSubmit={enviar}>
+
                 <div className="grupo">
                     <label>Empresa</label>
                     <input
@@ -175,15 +199,51 @@ function FormularioExperiencia({
                     />
                 </div>
 
+                {/* FUNCIONES */}
                 <div className="grupo">
                     <label>Funciones desempeñadas</label>
-                    <textarea
-                        rows="4"
-                        name="funciones"
-                        placeholder="Describa las funciones realizadas"
-                        value={experienciaActual.funciones}
-                        onChange={actualizarExperiencia}
-                    ></textarea>
+                    <div className="agregar-funcion">
+                        <input
+                            type="text"
+                            placeholder="Escribe las funciones desempeñadas"
+                            value={nuevaFuncion}
+                            onChange={(e) =>
+                                setNuevaFuncion(e.target.value)
+                            }
+                        />
+                        <button
+                            type="button"
+                            className="btn-agregar"
+                            onClick={agregarFuncion}
+                        >
+                            + Agregar
+                        </button>
+                    </div>
+                    {/* LISTA DE CURSOS */}
+
+                    {persona.funcion.length > 0 && (
+                        <div className="lista-funcion">
+                            {persona.funcion.map((funcion, indice) => (
+                                <div
+                                    className="funcion-item"
+                                    key={indice}
+                                >
+                                    <span>
+                                        {fuuncion}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        className="btn-eliminar"
+                                        onClick={() =>
+                                            eliminarFuncion(indice)
+                                        }
+                                    >
+                                        Eliminar
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div className="grupo">

@@ -33,7 +33,11 @@ function App() {
         cursos: [],
 
         // Experiencia laboral
-        experiencias: []
+        empresa: "",
+        cargo: "",
+        tiempo: "",
+        funcion: [],
+        habilidades: [],
         
     });
 
