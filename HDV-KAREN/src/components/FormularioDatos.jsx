@@ -5,8 +5,59 @@ function FormularioDatos({ persona, setPersona, siguiente }) {
   // Función del botón Continuar
   const continuar = (e) => {
     e.preventDefault();
-    alert("Los datos fueron capturados correctamente.");
 
+    if(persona.nombre.trim() ==="")
+    {
+      alert("Ingresar nombre completo")
+      return;
+    }
+
+    if(persona.edad.trim() ==="")
+    {
+      alert("Ingresar edad")
+      return;
+    }
+
+    if(persona.edad < 1 || persona.edad >=100)
+    {
+      alert("La edad no es valida debe estar entre 1 y 100")
+      return;
+    }
+
+    if(persona.ciudad.trim() ==="")
+    {
+      alert("Ingresar ciudad")
+      return;
+    }
+
+    if(persona.correo.trim() ==="")
+    {
+      alert("Ingresar correo electronico")
+      return;
+    }
+    const excorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!excorreo.test(persona.correo.trim())){
+      alert("Ingresar un correo electronico valido")
+    }
+
+    if(persona.programa.trim() ==="")
+    {
+      alert("Ingresar programa de formación")
+      return;
+    }
+
+    if(persona.ficha.trim() ==="")
+    {
+      alert("Ingresar numero de ficha")
+      return;
+    }
+
+    if(persona.jornada.trim() ==="")
+    {
+      alert("Ingresar jornada")
+      return;
+    }
+  
     if (siguiente) {
       siguiente();
     }

@@ -1,102 +1,91 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import Header from './components/Header';
-import FormularioDatos from './components/FormularioDatos';
-import FormacionAcademica from './components/FormularioAcademico';
-import ExperienciaLaboral from './components/FormularioExperiencia';
-import VistaPrevia from './components/VistaPrevia';
-import Footer from './components/Footer';
-import './App.css';
-import FormularioAcademico from './components/FormularioAcademico';
-import FormularioExperiencia from './components/FormularioExperiencia';
+import Header from "./components/Header";
+import FormularioDatos from "./components/FormularioDatos";
+import FormacionAcademica from "./components/FormularioAcademico";
+import ExperienciaLaboral from "./components/FormularioExperiencia";
+import VistaPrevia from "./components/VistaPrevia";
+import Footer from "./components/Footer";
+
+import "./App.css";
 
 function App() {
-  const [paso, setPaso] = useState(1);
+    const [paso, setPaso] = useState(1);
 
-  //datos compartidos
-  const [persona,setPersona] = useState({
-    
-    
-    //datos personales de la persona
-    foto: null,
-    nombre:"",
-    edad:"",
-    ciudad:"",
-    correo:"",
-    programa:"",
-    ficha:"",
-    jornada:"Mañana",
+    // Datos compartidos
+    const [persona, setPersona] = useState({
 
-    //informmación de estudios
-    nivel:"",
-    institucion:"",
-    titulo:"",
-    anio:"",
-    cursos:"",
+        // Datos personales
+        foto: null,
+        nombre: "",
+        edad: "",
+        ciudad: "",
+        correo: "",
+        programa: "",
+        ficha: "",
+        jornada: "Mañana",
 
-    //experiencia
-    empresa:"",
-    cargo:"",
-    tiempo:"",
-    funciones:"",
-    habilidades:"",
+        // Formación académica
+        nivel: "",
+        institucion: "",
+        titulo: "",
+        anio: "",
+        cursos: [],
 
+        // Experiencia laboral
+        experiencias: []
+        
+    });
 
-  });
+    return (
+        <div className="contenedor">
 
-  //estado para los cursos
-  const [datos, setDatos] = useState({
-    cursos: [],
-    Experiencia: [],
-  });
+            <Header />
 
-  return (
-    <div className='contenedor'>
-      <Header />
+            {/* PASO 1 */}
+            {paso === 1 && (
+                <FormularioDatos
+                    persona={persona}
+                    setPersona={setPersona}
+                    siguiente={() => setPaso(2)}
+                />
+            )}
 
-      {paso === 1 && (
-        <FormularioDatos 
-        persona = {persona}
-        setPersona = {setPersona}
-        siguiente={() => setPaso(2)} 
-        />
-      )}
+            {/* PASO 2 */}
+            {paso === 2 && (
+                <FormacionAcademica
+                    persona={persona}
+                    setPersona={setPersona}
+                    anterior={() => setPaso(1)}
+                    siguiente={() => setPaso(3)}
+                />
+            )}
 
-      {paso === 2 && (
-        <FormularioAcademico
-          persona = {persona}
-          setPersona = {setPersona}
-          datos={datos}
-          setDatos={setDatos}
-          anterior={() => setPaso(1)}
-          siguiente={() => setPaso(3)}
-        />
-      )}
+            {/* PASO 3 */}
+            {paso === 3 && (
+                <ExperienciaLaboral
+                    persona={persona}
+                    setPersona={setPersona}
+                    anterior={() => setPaso(2)}
+                    siguiente={() => setPaso(4)}
+                />
+            )}
 
-      {paso === 3 && (
-        <FormularioExperiencia
-          persona = {persona}
-          setPersona = {setPersona}
-          datos={datos}
-          setDatos={setDatos}
-          anterior={() => setPaso(2)}
-          siguiente={() => setPaso(4)}
-        />
-      )}
+            {/* PASO 4 */}
+            {paso === 4 && (
+                <VistaPrevia
+                    persona={persona}
+                    anterior={() => setPaso(3)}
+                    enviar={() => {
+                        alert("Hoja de vida enviada correctamente.");
+                    }}
+                />
+            )}
 
-      {paso === 4 && (
-        <VistaPrevia
-          persona = {persona}
-          datos={datos}
-          anterior={() => setPaso(3)}
-          enviar={() => {
-          }}
-        />
-      )}
+            <Footer />
 
-      <Footer />
-    </div>
-  );
+        </div>
+    );
 }
 
 export default App;

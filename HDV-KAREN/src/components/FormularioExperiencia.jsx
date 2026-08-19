@@ -1,248 +1,287 @@
 import { useState } from "react";
 
-function FormularioExperiencia({Persona, setPersona,datos,setDatos,siguiente,anterior }) {
+function FormularioExperiencia({
+    persona,
+    setPersona,
+    anterior,
+    siguiente
+}) {
 
-     const [nuevaExperiencia, setNuevaExperiencia] = useState({
-    empresa: "",
-    cargo: "",
-    tiempo: "",
-    funciones: "",
-    habilidades: ""
-  });
-
-
-  const agregarExperiencia = () => {
-
-    if (
-      nuevaExperiencia.empresa.trim() === "" ||
-      nuevaExperiencia.cargo.trim() === "" ||
-      nuevaExperiencia.tiempo.trim() === "" ||
-      nuevaExperiencia.funciones.trim() === "" ||
-      nuevaExperiencia.habilidades.trim() === ""
-    ) {
-      alert("Ingrese todos los datos");
-      return;
-    }
-
-
-    setDatos({
-      ...datos, Experiencia: [
-      ...datos.Experiencia,nuevaExperiencia]
+    // Estado temporal para la experiencia que se está escribiendo
+    const [experienciaActual, setExperienciaActual] = useState({
+        empresa: "",
+        cargo: "",
+        tiempo: "",
+        funciones: "",
+        habilidades: ""
     });
 
-    setNuevaExperiencia({
-      empresa: "",
-      cargo: "",
-      tiempo: "",
-      funciones: "",
-      habilidades: ""
-    });
+    // Cambiar los datos de la experiencia actual
+    const actualizarExperiencia = (e) => {
 
-  };
+        setExperienciaActual({
+            ...experienciaActual,
+            [e.target.name]: e.target.value
+        });
 
+    };
 
-  const eliminarExperiencia = (indice) => {
+    // Agregar experiencia
+    const agregarExperiencia = () => {
 
-    const ExperienciaActualizados = datos.Experiencia.filter(
-      (_, i) => i !== indice
-    );
+        // Validar Empresa
+        if (experienciaActual.empresa.trim() === "") {
+            alert("Por favor completa el campo Empresa.");
+            return;
+        }
 
-    setDatos({
-      ...datos,
-      Experiencia: ExperienciaActualizados
-    });
+        // Validar Cargo
+        if (experienciaActual.cargo.trim() === "") {
+            alert("Por favor completa el campo Cargo.");
+            return;
+        }
 
-  };
+        // Validar Tiempo
+        if (experienciaActual.tiempo.trim() === "") {
+            alert("Por favor completa el campo Tiempo de Experiencia.");
+            return;
+        }
 
+        // Validar Funciones
+        if (experienciaActual.funciones.trim() === "") {
+            alert("Por favor completa el campo Funciones desempeñadas.");
+            return;
+        }
 
-  // Función del botón Continuar
-  const enviar = (e) => {
-  e.preventDefault();
+        // Validar Habilidades
+        if (experienciaActual.habilidades.trim() === "") {
+            alert("Por favor completa el campo Habilidades Técnicas.");
+            return;
+        }
 
-  alert("Los datos fueron capturados correctamente.");
+        // Agregar experiencia
+        setPersona({
+            ...persona,
 
-  if (siguiente) {
-    siguiente();
-  }
+            experiencias: [
+                ...(persona.experiencias || []),
+                experienciaActual
+            ]
+        });
 
-};
+        // Limpiar formulario
+        setExperienciaActual({
+            empresa: "",
+            cargo: "",
+            tiempo: "",
+            funciones: "",
+            habilidades: ""
+        });
 
+    };
+
+    // Eliminar experiencia
+    const eliminarExperiencia = (indice) => {
+
+        const nuevasExperiencias =
+            (persona.experiencias || []).filter(
+                (_, i) => i !== indice
+            );
+
+        setPersona({...persona, experiencias: nuevasExperiencias});
+    };
+
+    // Continuar
+    const enviar = (e) => {
+
+        e.preventDefault();
+        if (
+            persona.experiencias &&
+            persona.experiencias.length > 0
+        ) {
+
+            alert("Las experiencias fueron capturadas correctamente.");
+
+            if (siguiente) {
+                siguiente();
+            }
+            return;
+        }
+
+        if (experienciaActual.empresa.trim() === "") {
+
+            alert("Completa Empresa.");
+            return;
+        }
+
+        if (experienciaActual.cargo.trim() === "") {
+            alert("completa Cargo.");
+            return;
+        }
+
+        if (experienciaActual.tiempo.trim() === "") {
+            alert("Completa Tiempo de Experiencia.");
+            return;
+        }
+
+        if (experienciaActual.funciones.trim() === "") {
+            alert("Completa Funciones desempeñadas.");
+            return;
+        }
+
+        if (experienciaActual.habilidades.trim() === "") {
+            alert("Completa Habilidades Técnicas.");
+            return;
+        }
+        alert(
+            "Debes presionar '+ Agregar Experiencia' antes de continuar."
+        );
+    };
     return (
-    <div className="formulario">
 
-      <h2>Información de experiencia</h2>
-
-      <form onSubmit={enviar}>
-
-        <div className="grupo">
-
-          <label>Nombre de la empresa</label>
-
-          <input
-            type="text"
-            placeholder="Ingrese el nombre"
-            value={nuevaExperiencia.empresa}
-            onChange={(e) =>
-              setNuevaExperiencia({
-                ...nuevaExperiencia,
-                empresa: e.target.value
-              })
-            }
-          />
-
-        </div>
-
-
-        <div className="grupo">
-
-          <label>Cargo</label>
-
-          <input
-            type="text"
-            placeholder="Ingrese el cargo"
-            value={nuevaExperiencia.cargo}
-            onChange={(e) =>
-              setNuevaExperiencia({
-                ...nuevaExperiencia,
-                cargo: e.target.value
-              })
-            }
-          />
-
-        </div>
-
-
-        <div className="grupo">
-
-          <label>Tiempo de experiencia</label>
-
-          <input
-            type="text"
-            placeholder="Ejemplo 1 año"
-            value={nuevaExperiencia.tiempo}
-            onChange={(e) =>
-              setNuevaExperiencia({
-                ...nuevaExperiencia,
-                tiempo: e.target.value
-              })
-            }
-          />
-
-        </div>
-
-
-        <div className="grupo">
-
-          <label>Funciones laborales</label>
-
-          <input
-            type="text"
-            placeholder="Ejemplo administrador"
-            value={nuevaExperiencia.funciones}
-            onChange={(e) =>
-              setNuevaExperiencia({
-                ...nuevaExperiencia,
-                funciones: e.target.value
-              })
-            }
-          />
-
-        </div>
-
-
-        <div className="grupo">
-
-          <label>Habilidades técnicas</label>
-
-          <input
-            type="text"
-            placeholder="Ejemplo programador"
-            value={nuevaExperiencia.habilidades}
-            onChange={(e) =>
-              setNuevaExperiencia({
-                ...nuevaExperiencia,
-                habilidades: e.target.value
-              })
-            }
-          />
-
-        </div>
-
-
-        <button
-          type="button"
-          onClick={agregarExperiencia}
-        >
-          + Agregar empresa
-        </button>
-
-        <div className="lista-Experiencia">
-
-          {
-            datos.Experiencia.map(
-              (experiencia, indice) => (
-
-                <div
-                  className="Experiencia"
-                  key={indice}
-                >
-
-                  <h3>
-                    {experiencia.empresa}
-                  </h3>
-
-                  <p>
-                    Cargo: {experiencia.cargo}
-                  </p>
-
-                  <p>
-                    Tiempo: {experiencia.tiempo}
-                  </p>
-
-                  <p>
-                    Funciones: {experiencia.funciones}
-                  </p>
-
-                  <p>
-                    Habilidades: {experiencia.habilidades}
-                  </p>
-
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      eliminarExperiencia(indice)
-                    }
-                  >
-                    Eliminar
-                  </button>
-
+        <div className="formulario">
+            <h2>Experiencia Laboral</h2>
+            <form onSubmit={enviar}>
+                <div className="grupo">
+                    <label>Empresa</label>
+                    <input
+                        type="text"
+                        name="empresa"
+                        placeholder="Nombre de la empresa"
+                        value={experienciaActual.empresa}
+                        onChange={actualizarExperiencia}
+                    />
                 </div>
 
-              )
-            )
-          }
+                <div className="grupo">
+                    <label>Cargo</label>
+                    <input
+                        type="text"
+                        name="cargo"
+                        placeholder="Cargo desempeñado"
+                        value={experienciaActual.cargo}
+                        onChange={actualizarExperiencia}
+                    />
+                </div>
 
+                <div className="grupo">
+                    <label>Tiempo de Experiencia</label>
+                    <input
+                        type="text"
+                        name="tiempo"
+                        placeholder="Ejemplo: 1 año"
+                        value={experienciaActual.tiempo}
+                        onChange={actualizarExperiencia}
+                    />
+                </div>
+
+                <div className="grupo">
+                    <label>Funciones desempeñadas</label>
+                    <textarea
+                        rows="4"
+                        name="funciones"
+                        placeholder="Describa las funciones realizadas"
+                        value={experienciaActual.funciones}
+                        onChange={actualizarExperiencia}
+                    ></textarea>
+                </div>
+
+                <div className="grupo">
+                    <label>Habilidades Técnicas</label>
+                    <textarea
+                        rows="4"
+                        name="habilidades"
+                        placeholder="Ejemplo: HTML, CSS, JavaScript, React..."
+                        value={experienciaActual.habilidades}
+                        onChange={actualizarExperiencia}
+                    ></textarea>
+                </div>
+
+                <button
+                    type="button"
+                    className="btn-agregar-experiencia"
+                    onClick={agregarExperiencia}
+                >
+                    + Agregar Experiencia
+                </button>
+
+                {persona.experiencias &&
+                    persona.experiencias.length > 0 && (
+
+                        <div className="lista-experiencias">
+                            <h3>
+                                Experiencias Registradas
+                            </h3>
+                            {persona.experiencias.map(
+                                (experiencia, indice) => (
+                                    <div
+                                        className="experiencia-item"
+                                        key={indice}
+                                    >
+                                        <div className="experiencia-info">
+                                            <h4>
+                                                {experiencia.cargo}
+                                            </h4>
+                                            <p>
+                                                <strong>
+                                                    Empresa:
+                                                </strong>{" "}
+                                                {experiencia.empresa}
+                                            </p>
+                                            <p>
+                                                <strong>
+                                                    Tiempo:
+                                                </strong>{" "}
+                                                {experiencia.tiempo}
+                                            </p>
+                                            <p>
+                                                <strong>
+                                                    Funciones:
+                                                </strong>{" "}
+                                                {experiencia.funciones}
+                                            </p>
+                                            <p>
+                                                <strong>
+                                                    Habilidades:
+                                                </strong>{" "}
+                                                {experiencia.habilidades}
+                                            </p>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="btn-eliminar"
+                                            onClick={() =>
+                                                eliminarExperiencia(
+                                                    indice
+                                                )
+                                            }
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </div>
+                    )}
+                <div className="botones">
+                    <button
+                        type="button"
+                        className="btn-anterior"
+                        onClick={anterior}
+                    >
+                        ← Anterior
+                    </button>
+
+                    <button
+                        type="submit"
+                        className="btn-siguiente"
+                    >
+                        Siguiente →
+                    </button>
+                </div>
+            </form>
         </div>
-
-
-        <button type="submit">
-          Vista previa
-        </button>
-
-
-        <button
-          type="button"
-          onClick={anterior}
-        >
-          Anterior
-        </button>
-
-
-      </form>
-
-    </div>
-  );
+    );
 }
 
 export default FormularioExperiencia;
