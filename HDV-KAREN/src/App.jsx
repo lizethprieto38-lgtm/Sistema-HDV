@@ -41,6 +41,47 @@ function App() {
         
     });
 
+    //conectar react con flask
+    const guardarhojavida = async () => {
+
+        try{
+            const datosapi = {
+
+                nombre:persona.nombre,
+                edad:persona.edad,
+                ciudad:persona.ciudad,
+                correo:persona.correo,
+                fotografia:persona.foto,
+                programa:persona.programa,
+                ficha:persona.ficha,
+                jornada:persona.jornada
+
+            };
+
+            const respuesta = await fetch(
+                "http://127.0.0.1:5000/api/registrohv",
+                {
+                    method:"POST",
+                    headers:{
+                        "content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(datosapi)
+                }
+            );
+            const resultado = await respuesta.json();
+
+            console.log("Respuesta realizada",resultado);
+
+
+        }catch (error){
+            console.error(
+                "error al conectar con flask",error
+            );
+        }
+
+    };
+
     return (
         <div className="contenedor">
 
@@ -80,11 +121,11 @@ function App() {
                 <VistaPrevia
                     persona={persona}
                     anterior={() => setPaso(3)}
-                    enviar={() => {
-                        alert("Hoja de vida enviada correctamente.");
-                    }}
+                    guardarHojavida = {guardarhojavida}
+                    
                 />
             )}
+
 
             <Footer />
 
